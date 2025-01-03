@@ -23,9 +23,80 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper(matrix) {
+  const retArr = [];
+
+  for (let i = 0; i < matrix.length; i++) {
+    const tempArr = [];
+    for (let j = 0; j < matrix[i].length; j++) {
+      tempArr.push(0);
+    }
+    retArr.push(tempArr);
+  }
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      if (matrix[i][j]) {
+        if (
+          i > 0 &&
+          i < matrix.length - 1 &&
+          j > 0 &&
+          j < matrix[i].length - 1
+        ) {
+          retArr[i - 1][j] = ++retArr[i - 1][j];
+          retArr[i - 1][j - 1] = ++retArr[i - 1][j - 1];
+          retArr[i - 1][j + 1] = ++retArr[i - 1][j + 1];
+          retArr[i][j - 1] = ++retArr[i][j - 1];
+          retArr[i][j + 1] = ++retArr[i][j + 1];
+          retArr[i + 1][j - 1] = ++retArr[i + 1][j - 1];
+          retArr[i + 1][j] = ++retArr[i + 1][j];
+          retArr[i + 1][j + 1] = ++retArr[i + 1][j + 1];
+        } else if (i == 0 && j == 0) {
+          retArr[i][j + 1] = ++retArr[i][j + 1];
+          retArr[i + 1][j + 1] = ++retArr[i + 1][j + 1];
+          retArr[i + 1][j] = ++retArr[i + 1][j];
+        } else if (i == matrix.length - 1 && j == 0) {
+          retArr[i][j + 1] = ++retArr[i][j + 1];
+          retArr[i - 1][j + 1] = ++retArr[i - 1][j + 1];
+          retArr[i - 1][j] = ++retArr[i - 1][j];
+        } else if (i == 0 && j == matrix[i].length - 1) {
+          retArr[i][j - 1] = ++retArr[i][j - 1];
+          retArr[i + 1][j - 1] = ++retArr[i + 1][j - 1];
+          retArr[i + 1][j] = ++retArr[i + 1][j];
+        } else if (i == matrix.length - 1 && j == matrix[i].length - 1) {
+          retArr[i][j - 1] = ++retArr[i][j - 1];
+          retArr[i - 1][j - 1] = ++retArr[i - 1][j - 1];
+          retArr[i - 1][j] = ++retArr[i - 1][j];
+        } else if (i == 0) {
+          retArr[i][j - 1] = ++retArr[i][j - 1];
+          retArr[i][j + 1] = ++retArr[i][j + 1];
+          retArr[i + 1][j - 1] = ++retArr[i + 1][j - 1];
+          retArr[i + 1][j] = ++retArr[i + 1][j];
+          retArr[i + 1][j + 1] = ++retArr[i + 1][j + 1];
+        } else if (i == matrix.length - 1) {
+          retArr[i - 1][j] = ++retArr[i - 1][j];
+          retArr[i - 1][j - 1] = ++retArr[i - 1][j - 1];
+          retArr[i - 1][j + 1] = ++retArr[i - 1][j + 1];
+          retArr[i][j - 1] = ++retArr[i][j - 1];
+          retArr[i][j + 1] = ++retArr[i][j + 1];
+        } else if (j == 0) {
+          retArr[i - 1][j] = ++retArr[i - 1][j];
+          retArr[i - 1][j + 1] = ++retArr[i - 1][j + 1];
+          retArr[i][j + 1] = ++retArr[i][j + 1];
+          retArr[i + 1][j] = ++retArr[i + 1][j];
+          retArr[i + 1][j + 1] = ++retArr[i + 1][j + 1];
+        } else if (j == matrix[i].length) {
+          retArr[i - 1][j] = ++retArr[i - 1][j];
+          retArr[i - 1][j - 1] = ++retArr[i - 1][j - 1];
+          retArr[i][j - 1] = ++retArr[i][j - 1];
+          retArr[i + 1][j - 1] = ++retArr[i + 1][j - 1];
+          retArr[i + 1][j] = ++retArr[i + 1][j];
+        }
+      }
+    }
+  }
+
+  return retArr;
 }
 
 module.exports = {

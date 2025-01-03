@@ -20,13 +20,61 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(direct = true) {
+    this.direct = direct;
+    this.ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(str, key) {
+    if (!str || !key) {
+      throw new Error('Incorrect arguments!');
+    }
+
+    let encryptStr = '';
+    const upperStr = str.toUpperCase();
+    const upperKey = key.toUpperCase();
+
+    for (let i = 0, j = 0; i < upperStr.length; i++) {
+      const indexCharStr = this.ALPHABET.indexOf(upperStr[i]);
+      const indexCharKey = this.ALPHABET.indexOf(upperKey[j % upperKey.length]);
+
+      if (indexCharStr != -1) {
+        let encryptIndexCharStr =
+          (indexCharStr + indexCharKey) % this.ALPHABET.length;
+        encryptStr += this.ALPHABET.charAt(encryptIndexCharStr);
+        j++;
+      } else {
+        encryptStr += upperStr[i];
+      }
+    }
+
+    return this.direct ? encryptStr : encryptStr.split('').reverse().join('');
+  }
+
+  decrypt(str, key) {
+    if (!str || !key) {
+      throw new Error('Incorrect arguments!');
+    }
+
+    let decryptStr = '';
+    const upperStr = str.toUpperCase();
+    const upperKey = key.toUpperCase();
+
+    for (let i = 0, j = 0; i < upperStr.length; i++) {
+      const indexCharStr = this.ALPHABET.indexOf(upperStr[i]);
+      const indexCharKey = this.ALPHABET.indexOf(upperKey[j % upperKey.length]);
+
+      if (indexCharStr != -1) {
+        let decryptIndexCharStr =
+          (indexCharStr - indexCharKey + this.ALPHABET.length) %
+          this.ALPHABET.length;
+        decryptStr += this.ALPHABET.charAt(decryptIndexCharStr);
+        j++;
+      } else {
+        decryptStr += upperStr[i];
+      }
+    }
+
+    return this.direct ? decryptStr : decryptStr.split('').reverse().join('');
   }
 }
 
